@@ -9,11 +9,29 @@ stock = {"8475HD":{'precio':387990,"stock":10},
 #funciones para el menu
 def Stock_marca(marca):
     stock_total = 0
-    
+    encontrado = False
+    for modelo in productos:
+        datos = productos[modelo]
+        if datos["marca"].lower() == marca:
+            stock_total += stock[modelo]["stock"]
+            encontrado = True
+    if encontrado:
+        print(f"El stock de es: {stock_total}")
+    else:
+        print("No hay stock del producto")
  
 def Busqueda_precio(p_min,p_max):
     lista = []
-    
+    for modelo in productos:
+        precio = stock[modelo]["precio"]
+        if p_min <= precio <= p_max:
+            marca = productos[modelo]["marca"]
+            lista.append(f"{marca}--{modelo}")
+    if lista:
+        print(f"los notebooks entre los precios consultados son: {lista.sort()}")
+    else:
+        print("No hay notebooks en ese rango de precios.")
+    return lista
     
 def eliminar_producto(modelo):
     if modelo in productos:
@@ -57,6 +75,15 @@ while True:
                 print("Producto eliminado!!")
             else:
                 print("El modelo no existe!!")
+
+            continuar = input("Desea eliminar otro producto (si/no)?: ").lower()
+            if continuar == 'si':
+                continue
+            elif continuar == 'no':
+                break
+            else:
+                print("Seleccione una opcion valia")
+
     elif op == 4:
         print("programa finalizado.")
         break
